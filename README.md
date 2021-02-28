@@ -5,7 +5,7 @@ modal progressbar
 ## Installation
 
 ```sh
-npm install react-native-modal-progress-bar
+yarn add react-native-modal-progress-bar
 ```
 
 ## Usage
