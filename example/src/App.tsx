@@ -1,32 +1,48 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import ModalProcess from 'react-native-modal-progress-bar';
 
-import { StyleSheet, View, Text } from 'react-native';
-import ModalProgressBar from 'react-native-modal-progress-bar';
+const App = () => {
+  const [percent, setPercent] = useState<number>(0);
 
+  const onAddPercent = () => {
+    setPercent(percent + 5);
+  };
 
-export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    ModalProgressBar.multiply(3, 7).then(setResult);
-  }, []);
+  useEffect(() => {
+    // setInterval(() => {
+    //   onAddPercent();
+    // }, 2000);
+  });
 
   return (
-    <View style={styles.container}>
-      <Text>Result: {result}</Text>
+    <View style={{ justifyContent: 'center', flex: 1, marginHorizontal: 14 }}>
+      <Text>
+        Hello
+      </Text>
+      <TouchableOpacity style={styles.btn} onPress={onAddPercent}>
+        <Text style={styles.txtWhite}>Add percent</Text>
+      </TouchableOpacity>
+
+      <ModalProcess isVisible={percent > 0} percent={percent} />
+
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
+  btn: {
+    backgroundColor: 'brown',
     justifyContent: 'center',
-  },
-  box: {
-    width: 60,
-    height: 60,
+    paddingVertical: 12,
+    alignItems: 'center',
+    width: '60%',
+    alignSelf: 'center',
     marginVertical: 20,
+    borderRadius: 11,
   },
+  txtWhite: { color: 'white', fontWeight: 'bold' },
+
 });
+
+export default App;
