@@ -24,7 +24,8 @@ const App = () => {
         <Text style={styles.txtWhite}>Add percent</Text>
       </TouchableOpacity>
 
-      <ModalProcess isVisible={percent > 0} percent={percent} />
+      <ModalProcess isVisible={percent > 0} percent={percent} title={'Cập nhập thiết bị'}
+                    subTitle={'Vui longf khong nagt ket noi mang de thucj hien chuwc nang nay'} />
 
     </View>
   );

@@ -1,31 +1,42 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
+import { Animated, Easing, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import Modal from 'react-native-modal';
+import Modal, { ModalProps } from 'react-native-modal';
 
 let check = 0;
 let heightProgressbar = 20;
-let colorBg = "#808080";
-let colorProcess = "#35c48c";
-let backgroundColorModal = "white";
-let backdropColor = "#253B5A";
+let colorBg = '#808080';
+let colorProcess = '#35c48c';
+let backgroundColorModal = 'white';
+let backdropColor = '#253B5A';
+let colorSubText = '#8492A6';
 
 interface ModalProcessProps {
+  wrapProcess: ViewStyle;
+  onBackdropPress?: () => void;
+  subTitleStyle?: TextStyle;
+  styleTitle?: TextStyle;
+  styleModal?: ViewStyle;
   hiddenModal?: () => void,
   isVisible: boolean,
   setVisible?: (isShowModal: boolean) => void,
-  percent: number
+  percent: number,
+  heightProgressbar?: number,
+  colorBg?: string,
+  colorProcess?: string,
+  backgroundColorModal?: string,
+  backdropColor?: string,
+  title: string,
+  subTitle?: string,
+  propsModal?: ModalProps,
+  styleWrapContentModal?: ViewStyle,
 }
 
 const ModalProcess = (props: ModalProcessProps) => {
-  // const [percent, setPercent] = useState<number>(0);
 
   const widthAmin = useRef(new Animated.Value(0)).current;
   const opacityAmin = useRef(new Animated.Value(0)).current;
 
-  // const onAddPercent = () => {
-  //   setPercent((num) => num + 5);
-  // };
 
   const onStartWidthAnimation = () => {
     Animated.timing(widthAmin, {
@@ -35,10 +46,6 @@ const ModalProcess = (props: ModalProcessProps) => {
       easing: Easing.linear,
     }).start();
   };
-
-  useEffect(() => {
-    // onAddPercent();
-  }, []);
 
   useEffect(() => {
     if (props.percent > 0 && check === 0 || props.percent <= 0 && check === 1) {
@@ -64,21 +71,25 @@ const ModalProcess = (props: ModalProcessProps) => {
 
   const widthAni = widthAmin.interpolate({
     inputRange: [0, 100],
-    outputRange: ["0%", "100%"],
+    outputRange: ['0%', '100%'],
   });
 
   return (
     <Modal
-      animationIn="zoomInDown"
-      animationOut="zoomOutUp"
+      animationIn='zoomInDown'
+      animationOut='zoomOutUp'
       backdropOpacity={0.4}
       backdropColor={backdropColor}
       isVisible={props.isVisible}
-      style={styles.modal}
-      onModalHide={props.hiddenModal}>
-      <View style={styles.wrapModal}>
-        <Text style={styles.title}>Modal update progress</Text>
-        <Animated.View style={[styles.wrapProcess, { height: opacityAmin }]}>
+      style={[styles.modal, props.styleModal]}
+      onModalHide={props.hiddenModal}
+      onBackdropPress={props.onBackdropPress}
+      {...props.propsModal}
+    >
+      <View style={[styles.wrapModal, props.styleWrapContentModal]}>
+        <Text style={[styles.title, props.styleTitle]}>{props.title}</Text>
+        {props.subTitle && <Text style={[styles.subTitleStyle, props.subTitleStyle]}>{props.subTitle}</Text>}
+        <Animated.View style={[styles.wrapProcess, props.wrapProcess, { height: opacityAmin }]}>
           <Animated.View style={[styles.process, { width: widthAni }]} />
           <Text style={styles.txtPercent}>{props.percent}%</Text>
         </Animated.View>
@@ -88,44 +99,67 @@ const ModalProcess = (props: ModalProcessProps) => {
 };
 
 const styles = StyleSheet.create({
-  title: { textAlign: "center", fontWeight: "500", fontSize: 17, marginBottom: 30 },
+  title: {
+    textAlign: 'center',
+    fontWeight: '500',
+    fontSize: 17,
+    marginBottom: 7,
+  },
   wrapModal: {
     backgroundColor: backgroundColorModal,
     borderRadius: 12,
     padding: 14,
-    height: "20%",
-    justifyContent: "center",
+    justifyContent: 'center',
+    paddingVertical: 35,
   },
   wrapProcess: {
     backgroundColor: colorBg,
     height: 0,
-    width: "100%",
-    position: "relative",
-    alignItems: "center",
-    justifyContent: "center",
+    width: '100%',
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 12,
+    marginTop: 30,
   },
-  process: { backgroundColor: colorProcess, height: heightProgressbar, position: "absolute", left: 0 },
-  txtPercent: { color: Colors.white, fontWeight: "bold" }, btn: {
-    backgroundColor: "brown",
-    justifyContent: "center",
+  process: {
+    backgroundColor: colorProcess,
+    height: heightProgressbar,
+    position: 'absolute', left: 0,
+  },
+  txtPercent: {
+    color: Colors.white, fontWeight: 'bold',
+  },
+  btn: {
+    backgroundColor: 'brown',
+    justifyContent: 'center',
     paddingVertical: 12,
-    alignItems: "center",
-    width: "60%",
-    alignSelf: "center",
+    alignItems: 'center',
+    width: '60%',
+    alignSelf: 'center',
     marginVertical: 20,
     borderRadius: 11,
-  }, txtWhite: { color: "white", fontWeight: "bold" },
+  },
+  txtWhite: {
+    color: 'white', fontWeight: 'bold',
+  },
   fadingContainer: {
     paddingVertical: 8,
     paddingHorizontal: 16,
-    backgroundColor: "powderblue",
+    backgroundColor: 'powderblue',
   },
   fadingText: {
     fontSize: 28,
-    textAlign: "center",
+    textAlign: 'center',
     margin: 10,
-  }, modal: { flex: 1, margin: 14 },
+  },
+  modal: {
+    flex: 1, margin: 14,
+  },
+  subTitleStyle: {
+    textAlign: 'center',
+    color: colorSubText,
+  },
 
 
 });
