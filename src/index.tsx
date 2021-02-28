@@ -12,7 +12,7 @@ let backdropColor = '#253B5A';
 let colorSubText = '#8492A6';
 
 interface ModalProcessProps {
-  wrapProcess: ViewStyle;
+  wrapProcess?: ViewStyle;
   onBackdropPress?: () => void;
   subTitleStyle?: TextStyle;
   styleTitle?: TextStyle;

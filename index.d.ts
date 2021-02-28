@@ -1,7 +1,7 @@
 import { TextStyle, ViewStyle } from 'react-native';
 import { ModalProps } from 'react-native-modal';
 interface ModalProcessProps {
-  wrapProcess: ViewStyle;
+  wrapProcess?: ViewStyle;
   onBackdropPress?: () => void;
   subTitleStyle?: TextStyle;
   styleTitle?: TextStyle;
