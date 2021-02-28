@@ -4,6 +4,15 @@ modal progressbar
 
 ## Installation
 
+- Step 1:
+  first you can install lib "react-native-modal":
+
+```sh
+yarn add react-native-modal
+```
+
+- Step 2:
+
 ```sh
 yarn add react-native-modal-progress-bar
 ```
@@ -13,9 +22,7 @@ yarn add react-native-modal-progress-bar
 ```js
 import ModalProgressBar from "react-native-modal-progress-bar";
 
-// ...
-
-const result = await ModalProgressBar.multiply(3, 7);
+<ModalProgressBar isVisible={true} percent={50}/>
 ```
 
 ## Contributing
