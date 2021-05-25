@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ModalProcess from 'react-native-modal-progress-bar';
+import useInterval from './useInterval';
 
 const App = () => {
   const [percent, setPercent] = useState<number>(0);
+  const [isShowModal, setShowModal] = useState<boolean>(false);
 
   const onAddPercent = () => {
-    setPercent(percent + 5);
+    setPercent(percent + 2);
   };
 
   useEffect(() => {
-    // setInterval(() => {
-    //   onAddPercent();
-    // }, 2000);
-  });
+    if (percent > 0 && isShowModal === false) {
+      setShowModal(true);
+    }
+  }, [percent]);
+
+  useInterval(() => {
+    onAddPercent();
+  }, percent > 0 && percent < 100 ? 2000 : null);
 
   return (
     <View style={{ justifyContent: 'center', flex: 1, marginHorizontal: 14 }}>
@@ -24,8 +30,12 @@ const App = () => {
         <Text style={styles.txtWhite}>Add percent</Text>
       </TouchableOpacity>
 
-      <ModalProcess isVisible={percent > 0} percent={percent} title={'Cập nhập thiết bị'}
-                    subTitle={'Vui longf khong nagt ket noi mang de thucj hien chuwc nang nay'} />
+      <ModalProcess
+        isVisible={isShowModal}
+        percent={percent}
+        hiddenModal={() => setShowModal(false)}
+        title={'Device is update!'}
+        subTitle={'Please stay connected to the device!!!'} />
 
     </View>
   );

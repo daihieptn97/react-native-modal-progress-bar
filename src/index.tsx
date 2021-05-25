@@ -7,8 +7,8 @@ let check = 0;
 let heightProgressbar = 20;
 let colorBg = '#808080';
 let colorProcess = '#35c48c';
-let backgroundColorModal = 'white';
-let backdropColor = '#253B5A';
+let backgroundColorModal = '#FFF';
+let backdropColor = 'rgba(0,87,146,0.38)';
 let colorSubText = '#8492A6';
 
 interface ModalProcessProps {
@@ -74,6 +74,8 @@ const ModalProcess = (props: ModalProcessProps) => {
     outputRange: ['0%', '100%'],
   });
 
+  console.log('hello', props);
+
   return (
     <Modal
       animationIn='zoomInDown'
@@ -83,7 +85,7 @@ const ModalProcess = (props: ModalProcessProps) => {
       isVisible={props.isVisible}
       style={[styles.modal, props.styleModal]}
       onModalHide={props.hiddenModal}
-      onBackdropPress={props.onBackdropPress}
+      onBackdropPress={props.onBackdropPress ? props.onBackdropPress : props.hiddenModal}
       {...props.propsModal}
     >
       <View style={[styles.wrapModal, props.styleWrapContentModal]}>
@@ -121,11 +123,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 12,
     marginTop: 30,
+    borderRadius: 4,
   },
   process: {
     backgroundColor: colorProcess,
     height: heightProgressbar,
-    position: 'absolute', left: 0,
+    position: 'absolute',
+    left: 0,
+    borderRadius: 4,
   },
   txtPercent: {
     color: Colors.white, fontWeight: 'bold',
